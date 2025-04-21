@@ -225,7 +225,7 @@ class Q2TemplateBot2025(ForecastBot):
         elif notepad.num_predictions_attempted == 3:
             prompt = clean_indents(
                 f"""
-                           You are a journalist writing a piece on prediction markets. To learn more about forecasting you are taking part in a forecasting tournament.
+                           You are a hobbyist forecaster. To increase your forecasting skills you are taking part in a forecasting tournament.
                            Your are currently trying to find the chance of this happening:
                            {question.question_text}
 
@@ -239,11 +239,11 @@ class Q2TemplateBot2025(ForecastBot):
 
                            Your online research has revealed the following:
                            {research}
-
+         
                            Today is {datetime.now().strftime("%Y-%m-%d")}.
 
                            Before answering you write:
-                           (a) Your intuitive thoughts on the likelihood of the question resolving as Yes.
+                           (a) Assess whether the research is relevant to the question.
                            (b) The outcome of the question according to current news (maintaining the status quo).
                            (c) A scenario that would cause the question to resolve as Yes.
                            (d) A scenario that would cause the question to resolve as No.
@@ -472,7 +472,7 @@ class Q2TemplateBot2025(ForecastBot):
         elif notepad.num_predictions_attempted == 3:
             prompt = clean_indents(
                 f"""
-                You are a journalist writing a piece on prediction markets. To learn more about forecasting you are taking part in a forecasting tournament.
+                You are a hobbyist forecaster. To increase your forecasting skills you are taking part in a forecasting tournament.
                 Your are currently trying to find the chance of this happening:
                 {question.question_text}
                 The options are: {question.options}
@@ -490,7 +490,7 @@ class Q2TemplateBot2025(ForecastBot):
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
                 
                 Before answering you write:
-                (a) Your intuitive thoughts on the likelihood of the question resolving as Yes.
+                (a) Assess whether the research is relevant to the question.
                 (b) The outcome of the question according to current news (maintaining the status quo).
                 (c) A scenario that would cause the question to resolve as Yes.
                 (d) A scenario that would cause the question to resolve as No.
@@ -763,7 +763,7 @@ class Q2TemplateBot2025(ForecastBot):
         elif notepad.num_predictions_attempted == 3:
             prompt = clean_indents(
                 f"""
-               You are a journalist writing a piece on prediction markets. To learn more about forecasting you are taking part in a forecasting tournament.
+               You are a hobbyist forecaster. To increase your forecasting skills you are taking part in a forecasting tournament.
                Your are currently trying to find the chance of this happening:
                {question.question_text}
 
@@ -789,10 +789,11 @@ class Q2TemplateBot2025(ForecastBot):
                 - Always start with a smaller number (more negative if negative) and then increase from there
                Before answering you write:
                Before answering you write:
-                        (a) The time left until the outcome to the question is known.
-                        (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
-                        (c) What the value at the resolution time will be if the current rate of change remains unchanged.
-                        (d) Factors that might change the rate of change (extreme outliers).
+                        (a) Assess how relevant the research is to the question.
+                        (b) How much time is left until the resolution date.
+                        (c) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
+                        (d) What the value at the resolution time will be if the current rate of change remains unchanged.
+                        (e) Factors that might change the rate of change (extreme outliers).
 
                You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A log score is used to evaluate your performance. That means, e.g. predicting 0.5% when the event is 5% likely to occur, will only result in a marginally better score when this question resolves "No", but a significantly worse score if the question resolves "Yes". Don't go towards extreme answers.
 
