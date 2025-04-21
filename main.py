@@ -851,14 +851,14 @@ class Q2TemplateBot2025(ForecastBot):
                 You write your prediction including the reasoning for your answer.
 
                 The last thing you write is your final answer as:
-            "
-            Percentile 10: XX
-            Percentile 20: XX
-            Percentile 40: XX
-            Percentile 60: XX
-            Percentile 80: XX
-            Percentile 90: XX
-            "
+                "
+                Percentile 10: XX
+                Percentile 20: XX
+                Percentile 40: XX
+                Percentile 60: XX
+                Percentile 80: XX
+                Percentile 90: XX
+                "
                                 """
             )
             model_name = "o1preview"
