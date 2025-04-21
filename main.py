@@ -153,8 +153,7 @@ class Q2TemplateBot2025(ForecastBot):
         notepad = await self._get_notepad(question)
         model_name = "default"
         if notepad.num_predictions_attempted == 1:
-            prompt = clean_indents(
-                f"""
+            prompt = clean_indents(f"""
                 You are a professional forecaster interviewing for a job.
 
                 Your interview question is:
@@ -184,160 +183,75 @@ class Q2TemplateBot2025(ForecastBot):
                 You write your rationale remembering that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
 
                 The last thing you write is your final answer as: "Probability: ZZ%", 0-100
-                """
-            )
+                """)
             model_name = "claude3.7"
         elif notepad.num_predictions_attempted == 2:
-            prompt = clean_indents(
-                f"""
-                        You are an economics researcher working on a model for predicting future events. You hold a capitalistic word view and believe in the efficient-market hypothesis.
-
-                        Your are currently trying to find the chance of this happening:
-                        {question.question_text}
-
-                        You have already compiled additional information to aid you in modelling this event:
-                        {question.background_info}
-
-                        To test the accuracy of your forecast a specific condition has been chosen to evaluate the future outcome of the event:
-                        {question.resolution_criteria}
-
-                        {question.fine_print}
-
-                        Your research assistant says:
-                        {research}
-
-                        Today is {datetime.now().strftime("%Y-%m-%d")}.
-
-                        Before answering you write:
-                        (1) The time left until the outcome to the question is known.
-                        (2) What is the status quo outcome? For economic questions this means, what does the efficient market dictate?
-                        (3) Using a bottom-up approach what could cause the status quo to change?
-                        (4) What is the likelihood of the status quo changing towards a Yes resolution?
-                        (5) What is the likelihood of the status quo changing towards a No resolution?
-
-                        A log score is used to evaluate your performance. That means, e.g. predicting 99% when yan event is 95% likely to occur, will only result in a marginally better score when this question resolves "Yes", but a significantly worse score if the question resolves "No". Thus don't be overconfident
-
-                        The last thing you write is your final answer as: "Probability: ZZ%", 0-100
-                        """
-            )
+            prompt = clean_indents(f"""
+                You are an economics researcher working on a model for predicting future events. You hold a capitalistic word view and believe in the efficient-market hypothesis.
+                
+                Your are currently trying to find the chance of this happening:
+                {question.question_text}
+                
+                You have already compiled additional information to aid you in modelling this event:
+                {question.background_info}
+                
+                To test the accuracy of your forecast a specific condition has been chosen to evaluate the future outcome of the event:
+                {question.resolution_criteria}
+                
+                {question.fine_print}
+                
+                Your research assistant says:
+                {research}
+                
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
+                
+                Before answering you write:
+                (1) The time left until the outcome to the question is known.
+                (2) What is the status quo outcome? For economic questions this means, what does the efficient market dictate?
+                (3) Using a bottom-up approach what could cause the status quo to change?
+                (4) What is the likelihood of the status quo changing towards a Yes resolution?
+                (5) What is the likelihood of the status quo changing towards a No resolution?
+                
+                A log score is used to evaluate your performance. That means, e.g. predicting 99% when yan event is 95% likely to occur, will only result in a marginally better score when this question resolves "Yes", but a significantly worse score if the question resolves "No". Thus don't be overconfident
+                
+                The last thing you write is your final answer as: "Probability: ZZ%", 0-100
+                """)
             model_name = "o1preview"
 
         elif notepad.num_predictions_attempted == 3:
-            prompt = clean_indents(
-                f"""
-                           You are a hobbyist forecaster. To increase your forecasting skills you are taking part in a forecasting tournament.
-                           Your are currently trying to find the chance of this happening:
-                           {question.question_text}
-
-                           You know the following additional information on the subject :
-                           {question.background_info}
-
-                           To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
-                           {question.resolution_criteria}
-
-                           {question.fine_print}
-
-                           Your online research has revealed the following:
-                           {research}
-         
-                           Today is {datetime.now().strftime("%Y-%m-%d")}.
-
-                           Before answering you write:
-                           (a) Assess whether the research is relevant to the question.
-                           (b) The outcome of the question according to current news (maintaining the status quo).
-                           (c) A scenario that would cause the question to resolve as Yes.
-                           (d) A scenario that would cause the question to resolve as No.
-                           (e) How likely either of these scenarios is.
-
-                           You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A log score is used to evaluate your performance. That means, e.g. predicting 0.5% when the event is 5% likely to occur, will only result in a marginally better score when this question resolves "No", but a significantly worse score if the question resolves "Yes". Don't go towards extreme answers.
-
-                           The last thing you write is your final answer as: "Probability: ZZ%", 0-100
-                           """
-            )
+            prompt = clean_indents(f"""
+                You are a hobbyist forecaster. To increase your forecasting skills you are taking part in a forecasting tournament.
+                Your are currently trying to find the chance of this happening:
+                {question.question_text}
+                
+                You know the following additional information on the subject :
+                {question.background_info}
+                
+                To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
+                {question.resolution_criteria}
+                
+                {question.fine_print}
+                
+                Your online research has revealed the following:
+                {research}
+                
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
+                
+                Before answering you write:
+                (a) Assess whether the research is relevant to the question.
+                (b) The outcome of the question according to current news (maintaining the status quo).
+                (c) A scenario that would cause the question to resolve as Yes.
+                (d) A scenario that would cause the question to resolve as No.
+                (e) How likely either of these scenarios is.
+                
+                You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A log score is used to evaluate your performance. That means, e.g. predicting 0.5% when the event is 5% likely to occur, will only result in a marginally better score when this question resolves "No", but a significantly worse score if the question resolves "Yes". Don't go towards extreme answers.
+                
+                The last thing you write is your final answer as: "Probability: ZZ%", 0-100
+                """)
             model_name = "gpt4o"
 
         elif notepad.num_predictions_attempted == 4:
-            prompt = clean_indents(
-                f"""
-                        You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
-                        {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                        Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
-
-                        Today is {datetime.now().strftime("%Y-%m-%d")}.
-
-                        The following question is to be predicted:
-                        {question.question_text}
-
-                        {question.resolution_criteria}
-                        {question.fine_print}
-
-                        The following additional information on the subject has been provided by your engineers:
-                        {question.background_info}
-
-                        Another AI has done the following research using news available online.
-                        {research}
-
-                        Before providing a final forecast, provide the following:
-                        (0) How many days are left until the question resolution. 
-                        (1) Using a top-down approach list factors you have to consider and key facts.
-                        (2a) Reasons the question might resolve as No.
-                        (2b) Reasons the question might resolve as Yes.
-                        (3) Based on these reasons what would a resolution probability be?
-                        (4a) Reflect on this answer and the considerations above.
-                        (4b) Adjust your opinion accordingly.
-
-                        You write your prediction including the reasoning for your answer.
-
-                        The last thing you write is your final answer as: "Probability: ZZ%", 0-100
-                        """
-            )
-            model_name = "o1preview"
-
-        elif notepad.num_predictions_attempted == 5:
-            comments = "\n".join(notepad.note_entries["reasonings"])
-            prompt = clean_indents(
-                f"""
-                        You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring: 
-                        {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                        This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters usually predict between 1% and 99% unless the resolution is already apparent (e.g. if the status quo is impossible to change in the remaining time). 
-                         You want to win the competition and get the highest score.
-                         You are trying to find the chance of this happening:
-                        {question.question_text}
-
-                        Additional information has been provided to aid in forecasting:
-                        {question.background_info}
-
-                        To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
-                        {question.resolution_criteria}
-                        Be mindful of these stipulations, some of which may be unintuitive to the way the question is worded, but take care of edge cases:
-                        {question.fine_print}
-
-                        You have researched using online news.
-                        {research}
-                        You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction.
-                        {comments}
-
-                        Look through each comment and comprehend their trains of thought. At the end assign a weight to each prediction according to how good you find the reasoning.
-                        The weights should be between 0.01 and 0.99 and the total sum of the weights should be exactly 1.
-
-
-                        Before assigning weights write the following:
-                        (1) A short assessment of each prediction.
-                        (2) Which reasoning you most agree with an believe to be closest to a true prediction/the true probability of the event.
-                        (3) The weights you assign to each comment in the form:
-                            Reasoning_1: Weight_1
-                            Reasoning_2: Weight_2
-                            Reasoning_3: Weight_4
-                            Reasoning_4: Weight_4
-
-                        The last thing you write is your final weighted sum as: "Probability: ZZ%", 0-100
-                        """
-            )
-            model_name = "claude3.7"
-
-        elif notepad.num_predictions_attempted > 4:
-            prompt = clean_indents(
-                f"""
+            prompt = clean_indents(f"""
                 You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
                 Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
@@ -345,133 +259,194 @@ class Q2TemplateBot2025(ForecastBot):
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
 
                 The following question is to be predicted:
-               {question.question_text}
+                {question.question_text}
 
                 {question.resolution_criteria}
                 {question.fine_print}
 
-               The following additional information on the subject has been provided by your engineers:
-               {question.background_info}
+                The following additional information on the subject has been provided by your engineers:
+                {question.background_info}
 
-               Another AI has done the following research using news available online.
-               {research}
+                Another AI has done the following research using news available online.
+                {research}
 
-               Before providing a final forecast, provide the following:
-               (0) How many days are left until the question resolution. 
-               (1) Using a top-down approach list factors you have to consider and key facts.
-               (2a) Reasons the question might resolve as No.
-               (2b) Reasons the question might resolve as Yes.
-               (3) Based on these reasons what would a resolution probability be?
-               (4a) Reflect on this answer and the considerations above.
-               (4b) Adjust your opinion accordingly.
+                Before providing a final forecast, provide the following:
+                (0) How many days are left until the question resolution. 
+                (1) Using a top-down approach list factors you have to consider and key facts.
+                (2a) Reasons the question might resolve as No.
+                (2b) Reasons the question might resolve as Yes.
+                (3) Based on these reasons what would a resolution probability be?
+                (4a) Reflect on this answer and the considerations above.
+                (4b) Adjust your opinion accordingly.
 
-               You write your prediction including the reasoning for your answer.
+                You write your prediction including the reasoning for your answer.
 
-               The last thing you write is your final answer as: "Probability: ZZ%", 0-100
-                """
-            )
+                The last thing you write is your final answer as: "Probability: ZZ%", 0-100
+                """)
+            model_name = "o1preview"
+
+        elif notepad.num_predictions_attempted == 5:
+            comments = "\n".join(notepad.note_entries["reasonings"])
+            prompt = clean_indents(f"""
+                You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring: 
+                {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
+                This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters usually predict between 1% and 99% unless the resolution is already apparent (e.g. if the status quo is impossible to change in the remaining time). 
+                 You want to win the competition and get the highest score.
+                 You are trying to find the chance of this happening:
+                {question.question_text}
+
+                Additional information has been provided to aid in forecasting:
+                {question.background_info}
+
+                To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
+                {question.resolution_criteria}
+                Be mindful of these stipulations, some of which may be unintuitive to the way the question is worded, but take care of edge cases:
+                {question.fine_print}
+
+                You have researched using online news.
+                {research}
+                You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction.
+                {comments}
+
+                Look through each comment and comprehend their trains of thought. At the end assign a weight to each prediction according to how good you find the reasoning.
+                The weights should be between 0.01 and 0.99 and the total sum of the weights should be exactly 1.
+
+
+                Before assigning weights write the following:
+                (1) A short assessment of each prediction.
+                (2) Which reasoning you most agree with an believe to be closest to a true prediction/the true probability of the event.
+                (3) The weights you assign to each comment in the form:
+                    Reasoning_1: Weight_1
+                    Reasoning_2: Weight_2
+                    Reasoning_3: Weight_4
+                    Reasoning_4: Weight_4
+
+                The last thing you write is your final weighted sum as: "Probability: ZZ%", 0-100
+                """)
+            model_name = "claude3.7"
+
+        elif notepad.num_predictions_attempted > 4:
+            prompt = clean_indents(f"""
+                You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
+                {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
+                
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
+                
+                The following question is to be predicted:
+                {question.question_text}
+                
+                {question.resolution_criteria}
+                {question.fine_print}
+                
+                The following additional information on the subject has been provided by your engineers:
+                {question.background_info}
+                
+                Another AI has done the following research using news available online.
+                {research}
+                
+                Before providing a final forecast, provide the following:
+                (0) How many days are left until the question resolution. 
+                (1) Using a top-down approach list factors you have to consider and key facts.
+                (2a) Reasons the question might resolve as No.
+                (2b) Reasons the question might resolve as Yes.
+                (3) Based on these reasons what would a resolution probability be?
+                (4a) Reflect on this answer and the considerations above.
+                (4b) Adjust your opinion accordingly.
+                
+                You write your prediction including the reasoning for your answer.
+                
+                The last thing you write is your final answer as: "Probability: ZZ%", 0-100
+                """)
             model_name = "gpt4o"
 
         reasoning = await self.get_llm(model_name, "llm").invoke(prompt)
         logger.info(f"Reasoning for URL {question.page_url}: {reasoning}")
-        prediction: float = PredictionExtractor.extract_last_percentage_value(
-            reasoning, max_prediction=0.99, min_prediction=0.01
-        )
-        logger.info(
-            f"Forecasted URL {question.page_url} with prediction: {prediction}"
-        )
-        return ReasonedPrediction(
-            prediction_value=prediction, reasoning=reasoning
-        )
+        prediction: float = PredictionExtractor.extract_last_percentage_value(reasoning, max_prediction=0.99,
+            min_prediction=0.01)
+        logger.info(f"Forecasted URL {question.page_url} with prediction: {prediction}")
+        return ReasonedPrediction(prediction_value=prediction, reasoning=reasoning)
 
-    async def _run_forecast_on_multiple_choice(
-        self, question: MultipleChoiceQuestion, research: str
-    ) -> ReasonedPrediction[PredictedOptionList]:
+    async def _run_forecast_on_multiple_choice(self, question: MultipleChoiceQuestion, research: str) -> \
+    ReasonedPrediction[PredictedOptionList]:
         notepad = await self._get_notepad(question)
         model_name = "default"
         if notepad.num_predictions_attempted == 1:
-            prompt = clean_indents(
-                f"""
-                        You are a professional forecaster interviewing for a job.
-
-                        Your interview question is:
-                        {question.question_text}
-                        The options are: {question.options}
-                        Question background:
-                        {question.background_info}
-
-                        This question's outcome will be determined by the specific criteria below. These criteria have not yet been satisfied:
-                        {question.resolution_criteria}
-
-                        {question.fine_print}
-
-
-                        An AI aiding your research provides the following:
-                        {research}
-
-                        Today is {datetime.now().strftime("%Y-%m-%d")}.
-
-                        Before answering you write:
-                        (a) The time left until the outcome to the question is known.
-                        (b) The status quo outcome if nothing changed.
-                        (c) A brief description of a scenario that results in a No outcome.
-                        (d) A brief description of a scenario that results in a Yes outcome.
-
-                        Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 1% and 99%. Remember to not be overconfident.
-                        You write your rationale remembering that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
-
-                        The last thing you write is your final probabilities for the N options in this order {question.options} as:
-            Option_A: Probability_A
-            Option_B: Probability_B
-            ...
-            Option_N: Probability_N
-            """
-
-            )
+            prompt = clean_indents(f"""
+                You are a professional forecaster interviewing for a job.
+                
+                Your interview question is:
+                {question.question_text}
+                The options are: {question.options}
+                Question background:
+                {question.background_info}
+                
+                This question's outcome will be determined by the specific criteria below. These criteria have not yet been satisfied:
+                {question.resolution_criteria}
+                
+                {question.fine_print}
+                
+                
+                An AI aiding your research provides the following:
+                {research}
+                
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
+                
+                Before answering you write:
+                (a) The time left until the outcome to the question is known.
+                (b) The status quo outcome if nothing changed.
+                (c) A brief description of a scenario that results in a No outcome.
+                (d) A brief description of a scenario that results in a Yes outcome.
+                
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 1% and 99%. Remember to not be overconfident.
+                You write your rationale remembering that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
+                
+                The last thing you write is your final probabilities for the N options in this order {question.options} as:
+                Option_A: Probability_A
+                Option_B: Probability_B
+                ...
+                Option_N: Probability_N
+                """)
             model_name = "claude3.7"
         elif notepad.num_predictions_attempted == 2:
-            prompt = clean_indents(
-                f"""
+            prompt = clean_indents(f"""
                 You are an economics researcher working on a model for predicting future events. You hold a capitalistic word view and believe in the efficient-market hypothesis.
-
+                
                 Your are currently trying to find the chance of this happening:
                 {question.question_text}
                 The options are: {question.options}
                 You have already compiled additional information to aid you in modelling this event:
                 {question.background_info}
-
+                
                 To test the accuracy of your forecast a specific condition has been chosen to evaluate the future outcome of the event:
                 {question.resolution_criteria}
-
+                
                 {question.fine_print}
-
+                
                 Your research assistant says:
                 {research}
-
+                
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
-
+                
                 Before answering you write:
                 (1) The time left until the outcome to the question is known.
                 (2) What is the status quo outcome? For economic questions this means, what does the efficient market dictate?
                 (3) Using a bottom-up approach what could cause the status quo to change?
                 (4) What is the likelihood of the status quo changing towards a Yes resolution?
                 (5) What is the likelihood of the status quo changing towards a No resolution?
-
+                
                 A log score is used to evaluate your performance. That means, e.g. predicting 99% when yan event is 95% likely to occur, will only result in a marginally better score when this question resolves "Yes", but a significantly worse score if the question resolves "No". Thus don't be overconfident and leave long tails.
-
+                
                 The last thing you write is your final probabilities for the N options in this order {question.options} as:
-            Option_A: Probability_A
-            Option_B: Probability_B
-            ...
-            Option_N: Probability_N
-            
-                                """
-            )
+                Option_A: Probability_A
+                Option_B: Probability_B
+                ...
+                Option_N: Probability_N
+                """)
             model_name = "o1preview"  # ToDo: o1preview
 
         elif notepad.num_predictions_attempted == 3:
-            prompt = clean_indents(
-                f"""
+            prompt = clean_indents(f"""
                 You are a hobbyist forecaster. To increase your forecasting skills you are taking part in a forecasting tournament.
                 Your are currently trying to find the chance of this happening:
                 {question.question_text}
@@ -503,14 +478,11 @@ class Q2TemplateBot2025(ForecastBot):
                 Option_B: Probability_B
                 ...
                 Option_N: Probability_N
-            
-                                   """
-            )
+                """)
             model_name = "gpt4o"
 
         elif notepad.num_predictions_attempted == 4:
-            prompt = clean_indents(
-                f"""
+            prompt = clean_indents(f"""
                 You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
                 Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
@@ -541,195 +513,123 @@ class Q2TemplateBot2025(ForecastBot):
                 You write your prediction including the reasoning for your answer.
 
                 The last thing you write is your final probabilities for the N options in this order {question.options} as:
-            Option_A: Probability_A
-            Option_B: Probability_B
-            ...
-            Option_N: Probability_N
-            
-                                """
-            )
+                Option_A: Probability_A
+                Option_B: Probability_B
+                ...
+                Option_N: Probability_N
+                """)
             model_name = "o1preview"
 
         elif notepad.num_predictions_attempted == 5:
             comments = "\n".join(notepad.note_entries["reasonings"])
-            prompt = clean_indents(
-                f"""
-                                You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring: 
-                                {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                                This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters usually predict between 1% and 99% unless the resolution is already apparent (e.g. if the status quo is impossible to change in the remaining time). 
-                                 You want to win the competition and get the highest score.
-                                 You are trying to find the chance of this happening:
-                                {question.question_text}
-                                The options are: {question.options}
-                                Additional information has been provided to aid in forecasting:
-                                {question.background_info}
-
-                                To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
-                                {question.resolution_criteria}
-                                Be mindful of these stipulations, some of which may be unintuitive to the way the question is worded, but take care of edge cases:
-                                {question.fine_print}
-
-                                You have researched using online news.
-                                {research}
-                                You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction.
-                                {comments}
-
-                                Look through each comment and comprehend their trains of thought. At the end assign a weight to each prediction according to how good you find the reasoning.
-                                The weights should be between 0.01 and 0.99 and the total sum of the weights should be exactly 1.
-
-
-                                Before assigning weights write the following:
-                                (1) A short assessment of each prediction.
-                                (2) Which reasoning you most agree with an believe to be closest to a true prediction/the true probability of the event.
-                                (3) Which comment you don't agree with and believe is a bad prediction
-
-
-                                The last thing you write is your final probabilities (in %) for the N options in this order {question.options} as:
-                                Option_A: Probability_A
-                                Option_B: Probability_B
-                                ...
-                                Option_N: Probability_N
-            
-                                """
-            )
+            prompt = clean_indents(f"""
+                You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring: 
+                {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
+                This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters usually predict between 1% and 99% unless the resolution is already apparent (e.g. if the status quo is impossible to change in the remaining time). 
+                 You want to win the competition and get the highest score.
+                 You are trying to find the chance of this happening:
+                {question.question_text}
+                The options are: {question.options}
+                Additional information has been provided to aid in forecasting:
+                {question.background_info}
+                
+                To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
+                {question.resolution_criteria}
+                Be mindful of these stipulations, some of which may be unintuitive to the way the question is worded, but take care of edge cases:
+                {question.fine_print}
+                
+                You have researched using online news.
+                {research}
+                You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction.
+                {comments}
+                
+                Look through each comment and comprehend their trains of thought. At the end assign a weight to each prediction according to how good you find the reasoning.
+                The weights should be between 0.01 and 0.99 and the total sum of the weights should be exactly 1.
+                
+                Before assigning weights write the following:
+                (1) A short assessment of each prediction.
+                (2) Which reasoning you most agree with an believe to be closest to a true prediction/the true probability of the event.
+                (3) Which comment you don't agree with and believe is a bad prediction
+                
+                The last thing you write is your final probabilities (in %) for the N options in this order {question.options} as:
+                Option_A: Probability_A
+                Option_B: Probability_B
+                ...
+                Option_N: Probability_N
+                """)
             model_name = "claude3.7"
 
         elif notepad.num_predictions_attempted > 4:
-            prompt = clean_indents(
-                f"""
-                        You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
-                        {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                        Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
-
-                        Today is {datetime.now().strftime("%Y-%m-%d")}.
-
-                        The following question is to be predicted:
-                       {question.question_text}
-                        The options are: {question.options}
-                        {question.resolution_criteria}
-                        {question.fine_print}
-
-                       The following additional information on the subject has been provided by your engineers:
-                       {question.background_info}
-
-                       Another AI has done the following research using news available online.
-                       {research}
-
-                       Before providing a final forecast, provide the following:
-                       (0) How many days are left until the question resolution. 
-                       (1) Using a top-down approach list factors you have to consider and key facts.
-                       (2a) Reasons the question might resolve as No.
-                       (2b) Reasons the question might resolve as Yes.
-                       (3) Based on these reasons what would a resolution probability be?
-                       (4a) Reflect on this answer and the considerations above.
-                       (4b) Adjust your opinion accordingly.
-
-                       You write your prediction including the reasoning for your answer.
-
-                       The last thing you write is your final probabilities for the N options in this order {question.options} as:
-            Option_A: Probability_A
-            Option_B: Probability_B
-            ...
-            Option_N: Probability_N
-            
-                        """
-            )
+            prompt = clean_indents(f"""
+                You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
+                {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
+                
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
+                
+                The following question is to be predicted:
+                {question.question_text}
+                The options are: {question.options}
+                {question.resolution_criteria}
+                {question.fine_print}
+                
+                The following additional information on the subject has been provided by your engineers:
+                {question.background_info}
+                
+                Another AI has done the following research using news available online.
+                {research}
+                
+                Before providing a final forecast, provide the following:
+                (0) How many days are left until the question resolution. 
+                (1) Using a top-down approach list factors you have to consider and key facts.
+                (2a) Reasons the question might resolve as No.
+                (2b) Reasons the question might resolve as Yes.
+                (3) Based on these reasons what would a resolution probability be?
+                (4a) Reflect on this answer and the considerations above.
+                (4b) Adjust your opinion accordingly.
+                
+                You write your prediction including the reasoning for your answer.
+                
+                The last thing you write is your final probabilities for the N options in this order {question.options} as:
+                Option_A: Probability_A
+                Option_B: Probability_B
+                ...
+                Option_N: Probability_N
+                """)
             model_name = "gpt4o"
 
         reasoning = await self.get_llm(model_name, "llm").invoke(prompt)
         logger.info(f"Reasoning for URL {question.page_url}: {reasoning}")
         prediction: PredictedOptionList = (
-            PredictionExtractor.extract_option_list_with_percentage_afterwards(
-                reasoning, question.options
-            )
-        )
-        logger.info(
-            f"Forecasted URL {question.page_url} with prediction: {prediction}"
-        )
-        return ReasonedPrediction(
-            prediction_value=prediction, reasoning=reasoning
-        )
+            PredictionExtractor.extract_option_list_with_percentage_afterwards(reasoning, question.options))
+        logger.info(f"Forecasted URL {question.page_url} with prediction: {prediction}")
+        return ReasonedPrediction(prediction_value=prediction, reasoning=reasoning)
 
-    async def _run_forecast_on_numeric(
-        self, question: NumericQuestion, research: str
-    ) -> ReasonedPrediction[NumericDistribution]:
-        upper_bound_message, lower_bound_message = (
-            self._create_upper_and_lower_bound_messages(question)
-        )
+    async def _run_forecast_on_numeric(self, question: NumericQuestion, research: str) -> ReasonedPrediction[
+        NumericDistribution]:
+        upper_bound_message, lower_bound_message = (self._create_upper_and_lower_bound_messages(question))
         notepad = await self._get_notepad(question)
         model_name = "default"
         if notepad.num_predictions_attempted == 1:
-            prompt = clean_indents(
-                f"""
-                        You are a professional forecaster interviewing for a job.
-
-                        Your interview question is:
-                        {question.question_text}
-
-                        Question background:
-                        {question.background_info}
-
-                        This question's outcome will be determined by the specific criteria below. These criteria have not yet been satisfied:
-                        {question.resolution_criteria}
-
-                        {question.fine_print}
-
-
-                        An AI aiding your research provides the following:
-                        {research}
-
-                        Today is {datetime.now().strftime("%Y-%m-%d")}.
-                        
-                        Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
-                        {lower_bound_message}
-                        {upper_bound_message}
-                        
-                        Formatting Instructions:
-                        - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
-                        - Never use scientific notation.
-                        - Always start with a smaller number (more negative if negative) and then increase from there
-                        
-                        Before answering you write:
-                        (a) The time left until the outcome to the question is known.
-                        (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
-                        (c) What the value at the resolution time will be if the current rate of change remains unchanged.
-                        (d) Factors that might change the rate of change (extreme outliers).
-
-                        Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 1% and 99%. Remember to not be overconfident.
-                        You write your rationale remembering that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
-
-                        The last thing you write is your final answer as:
-            "
-            Percentile 10: XX
-            Percentile 20: XX
-            Percentile 40: XX
-            Percentile 60: XX
-            Percentile 80: XX
-            Percentile 90: XX
-            "
-                        """
-            )
-            model_name = "claude3.7"
-        elif notepad.num_predictions_attempted == 2:
-            prompt = clean_indents(
-                f"""
-                You are an economics researcher working on a model for predicting future events. You hold a capitalistic word view and believe in the efficient-market hypothesis.
-
-                Your are currently trying to find the chance of this happening:
+            prompt = clean_indents(f"""
+                You are a professional forecaster interviewing for a job.
+                
+                Your interview question is:
                 {question.question_text}
-
-                You have already compiled additional information to aid you in modelling this event:
+                
+                Question background:
                 {question.background_info}
-
-                To test the accuracy of your forecast a specific condition has been chosen to evaluate the future outcome of the event:
+                
+                This question's outcome will be determined by the specific criteria below. These criteria have not yet been satisfied:
                 {question.resolution_criteria}
-
+                
                 {question.fine_print}
-
-                Your research assistant says:
+                
+                An AI aiding your research provides the following:
                 {research}
-
+                
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
+                
                 Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
                 {lower_bound_message}
                 {upper_bound_message}
@@ -738,15 +638,16 @@ class Q2TemplateBot2025(ForecastBot):
                 - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
                 - Never use scientific notation.
                 - Always start with a smaller number (more negative if negative) and then increase from there
+                
                 Before answering you write:
-                Before answering you write:
-                        (a) The time left until the outcome to the question is known.
-                        (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
-                        (c) What the value at the resolution time will be if the current rate of change remains unchanged.
-                        (d) Factors that might change the rate of change (extreme outliers).
-
-                A log score is used to evaluate your performance. That means, more extreme forecasts will only result in a marginally better score when resolved correctly, but a significantly worse score otherwise. Thus don't be overconfident and leave long tails.
-
+                (a) The time left until the outcome to the question is known.
+                (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
+                (c) What the value at the resolution time will be if the current rate of change remains unchanged.
+                (d) Factors that might change the rate of change (extreme outliers).
+                
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, have long tails for unpredictable events.
+                You write your rationale remembering that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
+                
                 The last thing you write is your final answer as:
                 "
                 Percentile 10: XX
@@ -756,29 +657,27 @@ class Q2TemplateBot2025(ForecastBot):
                 Percentile 80: XX
                 Percentile 90: XX
                 "
-                                """
-            )
-            model_name = "o1preview"  # ToDo: o1preview
-
-        elif notepad.num_predictions_attempted == 3:
-            prompt = clean_indents(
-                f"""
-               You are a hobbyist forecaster. To increase your forecasting skills you are taking part in a forecasting tournament.
-               Your are currently trying to find the chance of this happening:
-               {question.question_text}
-
-               You know the following additional information on the subject :
-               {question.background_info}
-
-               To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
-               {question.resolution_criteria}
-
-               {question.fine_print}
-
-               Your online research has revealed the following:
-               {research}
-
-               Today is {datetime.now().strftime("%Y-%m-%d")}.
+                """)
+            model_name = "claude3.7"
+        elif notepad.num_predictions_attempted == 2:
+            prompt = clean_indents(f"""
+                You are an economics researcher working on a model for predicting future events. You hold a capitalistic word view and believe in the efficient-market hypothesis.
+                
+                Your are currently trying to find the chance of this happening:
+                {question.question_text}
+                
+                You have already compiled additional information to aid you in modelling this event:
+                {question.background_info}
+                
+                To test the accuracy of your forecast a specific condition has been chosen to evaluate the future outcome of the event:
+                {question.resolution_criteria}
+                
+                {question.fine_print}
+                
+                Your research assistant says:
+                {research}
+                
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
                 Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
                 {lower_bound_message}
                 {upper_bound_message}
@@ -787,47 +686,93 @@ class Q2TemplateBot2025(ForecastBot):
                 - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
                 - Never use scientific notation.
                 - Always start with a smaller number (more negative if negative) and then increase from there
-               Before answering you write:
-               Before answering you write:
-                        (a) Assess how relevant the research is to the question.
-                        (b) How much time is left until the resolution date.
-                        (c) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
-                        (d) What the value at the resolution time will be if the current rate of change remains unchanged.
-                        (e) Factors that might change the rate of change (extreme outliers).
+                Before answering you write:
+                Before answering you write:
+                (a) The time left until the outcome to the question is known.
+                (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
+                (c) What the value at the resolution time will be if the current rate of change remains unchanged.
+                (d) Factors that might change the rate of change (extreme outliers).
+                
+                You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A logarithmic score is used to evaluate your performance. That means, e.g. predicting 0.5% when the event is 5% likely to occur, will only result in a marginally better score when this question resolves "No", but a significantly worse score if the question resolves "Yes".
+                Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails.
+                
+                The last thing you write is your final answer as:
+                "
+                Percentile 10: XX
+                Percentile 20: XX
+                Percentile 40: XX
+                Percentile 60: XX
+                Percentile 80: XX
+                Percentile 90: XX
+                "
+                """)
+            model_name = "o1preview"  # ToDo: o1preview
 
-               You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A log score is used to evaluate your performance. That means, e.g. predicting 0.5% when the event is 5% likely to occur, will only result in a marginally better score when this question resolves "No", but a significantly worse score if the question resolves "Yes". Don't go towards extreme answers.
-
-               The last thing you write is your final answer as:
-            "
-            Percentile 10: XX
-            Percentile 20: XX
-            Percentile 40: XX
-            Percentile 60: XX
-            Percentile 80: XX
-            Percentile 90: XX
-            "
-                                   """
-            )
+        elif notepad.num_predictions_attempted == 3:
+            prompt = clean_indents(f"""
+                You are a hobbyist forecaster. To increase your forecasting skills you are taking part in a forecasting tournament.
+                Your are currently trying to find the chance of this happening:
+                {question.question_text}
+                
+                You know the following additional information on the subject :
+                {question.background_info}
+                
+                To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
+                {question.resolution_criteria}
+                
+                {question.fine_print}
+                
+                Your online research has revealed the following:
+                {research}
+                
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
+                Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
+                {lower_bound_message}
+                {upper_bound_message}
+                
+                Formatting Instructions:
+                - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
+                - Never use scientific notation.
+                - Always start with a smaller number (more negative if negative) and then increase from there
+                Before answering you write:
+                Before answering you write:
+                (a) Assess how relevant the research is to the question.
+                (b) How much time is left until the resolution date.
+                (c) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
+                (d) What the value at the resolution time will be if the current rate of change remains unchanged.
+                (e) Factors that might change the rate of change (extreme outliers).
+                
+                You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A logarithmic score is used to evaluate your performance. That means, e.g. predicting 0.5% when the event is 5% likely to occur, will only result in a marginally better score when this question resolves "No", but a significantly worse score if the question resolves "Yes".
+                Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails.
+                The last thing you write is your final answer as:
+                "
+                Percentile 10: XX
+                Percentile 20: XX
+                Percentile 40: XX
+                Percentile 60: XX
+                Percentile 80: XX
+                Percentile 90: XX
+                "
+                """)
             model_name = "gpt4o"
 
         elif notepad.num_predictions_attempted == 4:
-            prompt = clean_indents(
-                f"""
+            prompt = clean_indents(f"""
                 You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
                 Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
-
+                
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
-
+                
                 The following question is to be predicted:
                 {question.question_text}
-
+                
                 {question.resolution_criteria}
                 {question.fine_print}
-
+                
                 The following additional information on the subject has been provided by your engineers:
                 {question.background_info}
-
+                
                 Another AI has done the following research using news available online.
                 {research}
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
@@ -847,9 +792,8 @@ class Q2TemplateBot2025(ForecastBot):
                 (d) Factors that might change the rate of change (extreme outliers).
                 (e) Reflect on the two points above.
                 (f) Adjust your opinion accordingly.
-
-                You write your prediction including the reasoning for your answer.
-
+                
+                Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails for the 10th and 90th percentiles.
                 The last thing you write is your final answer as:
                 "
                 Percentile 10: XX
@@ -859,112 +803,107 @@ class Q2TemplateBot2025(ForecastBot):
                 Percentile 80: XX
                 Percentile 90: XX
                 "
-                                """
-            )
+                """)
             model_name = "o1preview"
 
         elif notepad.num_predictions_attempted == 5:
             comments = "\n".join(notepad.note_entries["reasonings"])
-            prompt = clean_indents(
-                f"""
-                                You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring: 
-                                {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                                This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters usually predict between 1% and 99% unless the resolution is already apparent (e.g. if the status quo is impossible to change in the remaining time). 
-                                 You want to win the competition and get the highest score.
-                                 You are trying to find the chance of this happening:
-                                {question.question_text}
-
-                                Additional information has been provided to aid in forecasting:
-                                {question.background_info}
-
-                                To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
-                                {question.resolution_criteria}
-                                Be mindful of these stipulations, some of which may be unintuitive to the way the question is worded, but take care of edge cases:
-                                {question.fine_print}
-
-                                You have researched using online news.
-                                {research}
-                                You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction.
-                                {comments}
-                                Today is {datetime.now().strftime("%Y-%m-%d")}.
-                                    Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
-                        {lower_bound_message}
-                        {upper_bound_message}
-                        
-                        Formatting Instructions:
-                        - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
-                        - Never use scientific notation.
-                        - Always start with a smaller number (more negative if negative) and then increase from there
-                        Look through each comment and comprehend their trains of thought. 
-                        
-                        Before assigning weights write the following:
-                        Before answering you write:
-                        (a) The time left until the outcome to the question is known.
-                        (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
-                        (c) What the value at the resolution time will be if the current rate of change remains unchanged.
-                        (d) Factors that might change the rate of change (extreme outliers).
-
-                        The last thing you write is your final answer as:
-                        "
-                        Percentile 10: XX
-                        Percentile 20: XX
-                        Percentile 40: XX
-                        Percentile 60: XX
-                        Percentile 80: XX
-                        Percentile 90: XX
-                        "
-                        """
-            )
+            prompt = clean_indents(f"""
+                You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring: 
+                {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
+                This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters usually predict between 1% and 99% unless the resolution is already apparent (e.g. if the status quo is impossible to change in the remaining time). 
+                You want to win the competition and get the highest score.
+                You are trying to find the chance of this happening:
+                {question.question_text}
+                
+                Additional information has been provided to aid in forecasting:
+                {question.background_info}
+                
+                To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
+                {question.resolution_criteria}
+                Be mindful of these stipulations, some of which may be unintuitive to the way the question is worded, but take care of edge cases:
+                {question.fine_print}
+                
+                You have researched using online news.
+                {research}
+                You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction.
+                {comments}
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
+                Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
+                {lower_bound_message}
+                {upper_bound_message}
+                
+                Formatting Instructions:
+                - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
+                - Never use scientific notation.
+                - Always start with a smaller number (more negative if negative) and then increase from there
+                Look through each comment and comprehend their trains of thought. 
+                
+                Before assigning weights write the following:
+                Before answering you write:
+                (a) The time left until the outcome to the question is known.
+                (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
+                (c) What the value at the resolution time will be if the current rate of change remains unchanged.
+                (d) Factors that might change the rate of change (extreme outliers).
+                
+                The last thing you write is your final answer as:
+                "
+                Percentile 10: XX
+                Percentile 20: XX
+                Percentile 40: XX
+                Percentile 60: XX
+                Percentile 80: XX
+                Percentile 90: XX
+                "
+                """)
             model_name = "claude3.7"
 
         elif notepad.num_predictions_attempted > 4:
-            prompt = clean_indents(
-                f"""
-                        You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
-                        {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                        Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
-
-                        Today is {datetime.now().strftime("%Y-%m-%d")}.
-
-                        The following question is to be predicted:
-                       {question.question_text}
-
-                        {question.resolution_criteria}
-                        {question.fine_print}
-
-                       The following additional information on the subject has been provided by your engineers:
-                       {question.background_info}
-
-                       Another AI has done the following research using news available online.
-                       {research}
-                                    Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
-                        {lower_bound_message}
-                        {upper_bound_message}
-                        
-                        Formatting Instructions:
-                        - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
-                        - Never use scientific notation.
-                        - Always start with a smaller number (more negative if negative) and then increase from there
-                       Before providing a final forecast, provide the following:
-                       Before answering you write:
-                        (a) The time left until the outcome to the question is known.
-                        (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
-                        (c) What the value at the resolution time will be if the current rate of change remains unchanged.
-                        (d) Factors that might change the rate of change (extreme outliers).
-
-                       You write your prediction including the reasoning for your answer.
-
-                       The last thing you write is your final answer as:
-            "
-            Percentile 10: XX
-            Percentile 20: XX
-            Percentile 40: XX
-            Percentile 60: XX
-            Percentile 80: XX
-            Percentile 90: XX
-            "
-                        """
-            )
+            prompt = clean_indents(f"""
+                You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
+                {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
+                
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
+                
+                The following question is to be predicted:
+                {question.question_text}
+                
+                {question.resolution_criteria}
+                {question.fine_print}
+                
+                The following additional information on the subject has been provided by your engineers:
+                {question.background_info}
+                
+                Another AI has done the following research using news available online.
+                {research}
+                            Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
+                {lower_bound_message}
+                {upper_bound_message}
+                
+                Formatting Instructions:
+                - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
+                - Never use scientific notation.
+                - Always start with a smaller number (more negative if negative) and then increase from there
+                Before providing a final forecast, provide the following:
+                Before answering you write:
+                (a) The time left until the outcome to the question is known.
+                (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
+                (c) What the value at the resolution time will be if the current rate of change remains unchanged.
+                (d) Factors that might change the rate of change (extreme outliers).
+                
+                You write your prediction including the reasoning for your answer.
+                
+                The last thing you write is your final answer as:
+                "
+                Percentile 10: XX
+                Percentile 20: XX
+                Percentile 40: XX
+                Percentile 60: XX
+                Percentile 80: XX
+                Percentile 90: XX
+                "
+                """)
             model_name = "default"
 
         reasoning = await self.get_llm(model_name, "llm").invoke(prompt)
