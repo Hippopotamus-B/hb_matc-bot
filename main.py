@@ -377,15 +377,15 @@ class Q2TemplateBot2025(ForecastBot):
                 
                 Your interview question is:
                 {question.question_text}
-                The options are: {question.options}
+                The options are: 
+                {question.options}
+                
                 Question background:
                 {question.background_info}
                 
                 This question's outcome will be determined by the specific criteria below. These criteria have not yet been satisfied:
                 {question.resolution_criteria}
-                
                 {question.fine_print}
-                
                 
                 An AI aiding your research provides the following:
                 {research}
@@ -429,14 +429,11 @@ class Q2TemplateBot2025(ForecastBot):
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
                 
                 Before answering you write:
-                (1) The time left until the outcome to the question is known.
-                (2) What is the status quo outcome? For economic questions this means, what does the efficient market dictate?
-                (3) Using a bottom-up approach what could cause the status quo to change?
-                (4) What is the likelihood of the status quo changing towards a Yes resolution?
-                (5) What is the likelihood of the status quo changing towards a No resolution?
-                
-                A log score is used to evaluate your performance. That means, e.g. predicting 99% when yan event is 95% likely to occur, will only result in a marginally better score when this question resolves "Yes", but a significantly worse score if the question resolves "No". Thus don't be overconfident and leave long tails.
-                
+                (1) How many days are left until the question resolution. 
+                (2) Using a top-down approach list factors you have to consider and key facts.
+                (3) What is the most likely option to happen?
+                (5) How are the different options distributed or related to each other (Binomial distribution, Poisson/geometric distribution, other)?
+                                
                 The last thing you write is your final probabilities for the N options in this order {question.options} as:
                 Option_A: Probability_A
                 Option_B: Probability_B
@@ -485,7 +482,7 @@ class Q2TemplateBot2025(ForecastBot):
             prompt = clean_indents(f"""
                 You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 3% and 96% unless absolutely sure.
 
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
 
@@ -498,17 +495,15 @@ class Q2TemplateBot2025(ForecastBot):
                 The following additional information on the subject has been provided by your engineers:
                 {question.background_info}
 
-                Another AI has done the following research using news available online.
+                Another AI has done the following research using news available online:
                 {research}
 
                 Before providing a final forecast, provide the following:
                 (0) How many days are left until the question resolution. 
                 (1) Using a top-down approach list factors you have to consider and key facts.
-                (2a) Reasons the question might resolve as No.
-                (2b) Reasons the question might resolve as Yes.
-                (3) Based on these reasons what would a resolution probability be?
-                (4a) Reflect on this answer and the considerations above.
-                (4b) Adjust your opinion accordingly.
+                (2a) What is the most likely option to happen?
+                (2b) What is the least likely option?
+                (3) How the different options are distributed or related to each other. (Binomial distribution, Poisson/geometric distribution, other)
 
                 You write your prediction including the reasoning for your answer.
 
@@ -529,6 +524,7 @@ class Q2TemplateBot2025(ForecastBot):
                  You want to win the competition and get the highest score.
                  You are trying to find the chance of this happening:
                 {question.question_text}
+                
                 The options are: {question.options}
                 Additional information has been provided to aid in forecasting:
                 {question.background_info}
@@ -538,18 +534,19 @@ class Q2TemplateBot2025(ForecastBot):
                 Be mindful of these stipulations, some of which may be unintuitive to the way the question is worded, but take care of edge cases:
                 {question.fine_print}
                 
-                You have researched using online news.
+                Other users have summarized online news:
                 {research}
+                
                 You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction.
                 {comments}
                 
-                Look through each comment and comprehend their trains of thought. At the end assign a weight to each prediction according to how good you find the reasoning.
-                The weights should be between 0.01 and 0.99 and the total sum of the weights should be exactly 1.
+                Look through each comment and comprehend their trains of thought. 
                 
                 Before assigning weights write the following:
                 (1) A short assessment of each prediction.
                 (2) Which reasoning you most agree with an believe to be closest to a true prediction/the true probability of the event.
-                (3) Which comment you don't agree with and believe is a bad prediction
+                (3) Which comment you don't agree with and believe is a bad prediction.
+                (4) Is there consensus in the comments above on what is the most or least likely option to happen?
                 
                 The last thing you write is your final probabilities (in %) for the N options in this order {question.options} as:
                 Option_A: Probability_A
@@ -643,10 +640,11 @@ class Q2TemplateBot2025(ForecastBot):
                 (a) The time left until the outcome to the question is known.
                 (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
                 (c) What the value at the resolution time will be if the current rate of change remains unchanged.
-                (d) Factors that might change the rate of change (extreme outliers).
+                (d) Factors that might change the rate of change.
+                (e) Events that may significantly change the value beyond the predicted resolution value.
                 
                 Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, have long tails for unpredictable events.
-                You write your rationale remembering that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
+                Please remember that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
                 
                 The last thing you write is your final answer as:
                 "
@@ -686,15 +684,15 @@ class Q2TemplateBot2025(ForecastBot):
                 - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
                 - Never use scientific notation.
                 - Always start with a smaller number (more negative if negative) and then increase from there
-                Before answering you write:
-                Before answering you write:
+                Before answering please write:
                 (a) The time left until the outcome to the question is known.
-                (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
-                (c) What the value at the resolution time will be if the current rate of change remains unchanged.
-                (d) Factors that might change the rate of change (extreme outliers).
+                (b) The current or latest reported value. 
+                (c) The current rate of change and how the change rate is distributed (linearly, exponentially, is normally distributed or other).
+                (c) What the value at the resolution time will be if the current rate of change remains unchanged or within the observed distribution.
+                (d) Factors that might change the rate of change (outliers). Use a bottom-up approach.
                 
-                You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A logarithmic score is used to evaluate your performance. That means, e.g. predicting 0.5% when the event is 5% likely to occur, will only result in a marginally better score when this question resolves "No", but a significantly worse score if the question resolves "Yes".
-                Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails.
+                You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A logarithmic score is used to evaluate your performance. That means overconfidence is punished.
+                Please leave long tails to account for this.
                 
                 The last thing you write is your final answer as:
                 "
@@ -742,8 +740,8 @@ class Q2TemplateBot2025(ForecastBot):
                 (d) What the value at the resolution time will be if the current rate of change remains unchanged.
                 (e) Factors that might change the rate of change (extreme outliers).
                 
-                You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A logarithmic score is used to evaluate your performance. That means, e.g. predicting 0.5% when the event is 5% likely to occur, will only result in a marginally better score when this question resolves "No", but a significantly worse score if the question resolves "Yes".
-                Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails.
+                You write your rationale thinking about black swan events, that, while extremely unlikely are unpredictable and can have huge impacts. A logarithmic score is used to evaluate your performance. 
+                Do not be overconfident and leave long tails.
                 The last thing you write is your final answer as:
                 "
                 Percentile 10: XX
@@ -760,10 +758,8 @@ class Q2TemplateBot2025(ForecastBot):
             prompt = clean_indents(f"""
                 You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
-                
-                Today is {datetime.now().strftime("%Y-%m-%d")}.
-                
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails for the 10th and 90th percentiles.
+                                
                 The following question is to be predicted:
                 {question.question_text}
                 
@@ -773,18 +769,15 @@ class Q2TemplateBot2025(ForecastBot):
                 The following additional information on the subject has been provided by your engineers:
                 {question.background_info}
                 
-                Another AI has done the following research using news available online.
+                Another AI has done the following research using news available online:
                 {research}
+                
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
+                
                 Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
                 {lower_bound_message}
                 {upper_bound_message}
                 
-                Formatting Instructions:
-                - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
-                - Never use scientific notation.
-                - Always start with a smaller number (more negative if negative) and then increase from there
-                Before providing a final forecast, provide the following:
                 Before answering you write:
                 (a) The time left until the outcome to the question is known.
                 (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
@@ -793,7 +786,10 @@ class Q2TemplateBot2025(ForecastBot):
                 (e) Reflect on the two points above.
                 (f) Adjust your opinion accordingly.
                 
-                Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails for the 10th and 90th percentiles.
+                Formatting Instructions:
+                - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
+                - Never use scientific notation.
+                - Always start with a smaller number (more negative if negative) and then increase from there
                 The last thing you write is your final answer as:
                 "
                 Percentile 10: XX
@@ -811,41 +807,43 @@ class Q2TemplateBot2025(ForecastBot):
             prompt = clean_indents(f"""
                 You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters usually predict between 1% and 99% unless the resolution is already apparent (e.g. if the status quo is impossible to change in the remaining time). 
+                This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters use long tails (e.g. wide 10th and 90th percentiles).
                 You want to win the competition and get the highest score.
                 You are trying to find the chance of this happening:
                 {question.question_text}
                 
-                Additional information has been provided to aid in forecasting:
-                {question.background_info}
-                
                 To create a fair environment a specific criteria has been chosen to evaluate the question's outcome:
                 {question.resolution_criteria}
-                Be mindful of these stipulations, some of which may be unintuitive to the way the question is worded, but take care of edge cases:
                 {question.fine_print}
                 
-                You have researched using online news.
-                {research}
-                You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction.
-                {comments}
-                Today is {datetime.now().strftime("%Y-%m-%d")}.
                 Units for answer: {question.unit_of_measure if question.unit_of_measure else "Not stated (please infer this)"}
                 {lower_bound_message}
                 {upper_bound_message}
+                
+                Additional information has been provided to aid in forecasting:
+                {question.background_info}               
+                
+                Online news have already been summarized by other forecasters:
+                {research}
+                
+                You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction:
+                {comments}
+                
+                Today is {datetime.now().strftime("%Y-%m-%d")}.
+                
+                Look through each comment and comprehend their trains of thought. 
+                
+                Before assigning weights to each opinion write the following:
+                Before answering you write:
+                (a) Is the research relevant to the other user's comments or have they formed their analysis on false premises?
+                (b) The comment you least agree with.
+                (c) The reasoning you most agree with.
+                (d) Factors from multiple reasonings that you think will have an impact.
                 
                 Formatting Instructions:
                 - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
                 - Never use scientific notation.
                 - Always start with a smaller number (more negative if negative) and then increase from there
-                Look through each comment and comprehend their trains of thought. 
-                
-                Before assigning weights write the following:
-                Before answering you write:
-                (a) The time left until the outcome to the question is known.
-                (b) The current value and current rate of change (whether it changes linearly, exponentially, is normally distributed or other)
-                (c) What the value at the resolution time will be if the current rate of change remains unchanged.
-                (d) Factors that might change the rate of change (extreme outliers).
-                
                 The last thing you write is your final answer as:
                 "
                 Percentile 10: XX
