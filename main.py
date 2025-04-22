@@ -394,12 +394,11 @@ class Q2TemplateBot2025(ForecastBot):
                 
                 Before answering you write:
                 (a) The time left until the outcome to the question is known.
-                (b) The status quo outcome if nothing changed.
-                (c) A brief description of a scenario that results in a No outcome.
-                (d) A brief description of a scenario that results in a Yes outcome.
+                (b) The current status quo and if any of the options are current values or all in the future.
+                (c) A brief description of the most likely scenario.
+                (d) A brief description of the least likely opteion.
                 
                 Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 1% and 99%. Remember to not be overconfident.
-                You write your rationale remembering that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
                 
                 The last thing you write is your final probabilities for the N options in this order {question.options} as:
                 Option_A: Probability_A
@@ -434,6 +433,9 @@ class Q2TemplateBot2025(ForecastBot):
                 (3) What is the most likely option to happen?
                 (5) How are the different options distributed or related to each other (Binomial distribution, Poisson/geometric distribution, other)?
                                 
+                The score of the question is determined using a logarithmic function. Higher percentages on the correct option lead to more points, but with less marginal benefit. 
+                A correct prediction of 99% will not be awarded significantly more points than a 95% prediction, but result in an exponentially more negative score in case of a wrong prediction.     
+                                
                 The last thing you write is your final probabilities for the N options in this order {question.options} as:
                 Option_A: Probability_A
                 Option_B: Probability_B
@@ -463,14 +465,14 @@ class Q2TemplateBot2025(ForecastBot):
                 
                 Before answering you write:
                 (a) Assess whether the research is relevant to the question.
-                (b) The outcome of the question according to current news (maintaining the status quo).
-                (c) A scenario that would cause the question to resolve as Yes.
-                (d) A scenario that would cause the question to resolve as No.
-                (e) How likely either of these scenarios is.
+                (b) The outcome of the question according to current news (maintaining the status quo) or past outcomes if applicable.
+                (c) The most likely outcome.
+                (d) The least likely option.
                 
                 You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A log score is used to evaluate your performance. That means, e.g. predicting 0.5% when the event is 5% likely to occur, will only result in a marginally better score when this question resolves "No", but a significantly worse score if the question resolves "Yes". Don't go towards extreme answers.
                 
                 The last thing you write is your final probabilities for the N options in this order {question.options} as:
+                
                 Option_A: Probability_A
                 Option_B: Probability_B
                 ...
@@ -508,6 +510,7 @@ class Q2TemplateBot2025(ForecastBot):
                 You write your prediction including the reasoning for your answer.
 
                 The last thing you write is your final probabilities for the N options in this order {question.options} as:
+                
                 Option_A: Probability_A
                 Option_B: Probability_B
                 ...
@@ -549,6 +552,7 @@ class Q2TemplateBot2025(ForecastBot):
                 (4) Is there consensus in the comments above on what is the most or least likely option to happen?
                 
                 The last thing you write is your final probabilities (in %) for the N options in this order {question.options} as:
+                
                 Option_A: Probability_A
                 Option_B: Probability_B
                 ...
@@ -579,15 +583,16 @@ class Q2TemplateBot2025(ForecastBot):
                 Before providing a final forecast, provide the following:
                 (0) How many days are left until the question resolution. 
                 (1) Using a top-down approach list factors you have to consider and key facts.
-                (2a) Reasons the question might resolve as No.
-                (2b) Reasons the question might resolve as Yes.
-                (3) Based on these reasons what would a resolution probability be?
+                (2a) Which is the most likely outcome.
+                (2b) Which is the least likely outcome.
+                (3) Based on these reasons what are each options respective probabilities.
                 (4a) Reflect on this answer and the considerations above.
                 (4b) Adjust your opinion accordingly.
                 
                 You write your prediction including the reasoning for your answer.
                 
                 The last thing you write is your final probabilities for the N options in this order {question.options} as:
+                
                 Option_A: Probability_A
                 Option_B: Probability_B
                 ...
