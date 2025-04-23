@@ -521,11 +521,10 @@ class Q2TemplateBot2025(ForecastBot):
         elif notepad.num_predictions_attempted == 5:
             comments = "\n".join(notepad.note_entries["reasonings"])
             prompt = clean_indents(f"""
-                You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring: 
+                You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring, you want to win the competition and get the highest score: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters usually predict between 1% and 99% unless the resolution is already apparent (e.g. if the status quo is impossible to change in the remaining time). 
-                 You want to win the competition and get the highest score.
-                 You are trying to find the chance of this happening:
+                This means forecasts at the extreme ends provide decreasing marginal benefits, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters usually predict between 1% and 99% unless the resolution is already apparent (e.g. if the status quo is impossible to change in the remaining time). 
+                You are trying to find the chance of this happening:
                 {question.question_text}
                 
                 The options are: {question.options}
@@ -564,7 +563,7 @@ class Q2TemplateBot2025(ForecastBot):
             prompt = clean_indents(f"""
                 You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 3% and 95% unless absolutely sure.
                 
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
                 
@@ -648,8 +647,8 @@ class Q2TemplateBot2025(ForecastBot):
                 (d) Factors that might change the rate of change.
                 (e) Events that may significantly change the value beyond the predicted resolution value.
                 
-                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, have long tails for unpredictable events.
-                Please remember that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. Good forecasters are humble and set wide 90/10 confidence intervals to account for unknowns.
+                Please remember that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time. Your final answer may look similar to a normal distribution.
                 
                 The last thing you write is your final answer as:
                 "
@@ -697,7 +696,7 @@ class Q2TemplateBot2025(ForecastBot):
                 (d) Factors that might change the rate of change (outliers). Use a bottom-up approach.
                 
                 You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A logarithmic score is used to evaluate your performance. That means overconfidence is punished.
-                Please leave long tails to account for this.
+                Please leave long tails to account for this. 
                 
                 The last thing you write is your final answer as:
                 "
@@ -746,7 +745,7 @@ class Q2TemplateBot2025(ForecastBot):
                 (e) Factors that might change the rate of change (extreme outliers).
                 
                 You write your rationale thinking about black swan events, that, while extremely unlikely are unpredictable and can have huge impacts. A logarithmic score is used to evaluate your performance. 
-                Do not be overconfident and leave long tails.
+                Do not be overconfident and leave long tails for the 20th and 80th percentiles. Avoid narrow forecasts.
                 The last thing you write is your final answer as:
                 "
                 Percentile 10: XX
@@ -763,7 +762,7 @@ class Q2TemplateBot2025(ForecastBot):
             prompt = clean_indents(f"""
                 You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails for the 10th and 90th percentiles.
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails for the 10th and 90th percentiles smilar to a normal distribution.
                                 
                 The following question is to be predicted:
                 {question.question_text}
@@ -982,16 +981,16 @@ if __name__ == "__main__":
         llms={  # choose your model names or GeneralLlm llms here, otherwise defaults will be chosen for you
             "default": GeneralLlm(
                 model="metaculus/anthropic/claude-3-7-sonnet-latest",
-                temperature=1,
+                temperature=0.8,
                 timeout=40,
-                allowed_tries=2,
+                allowed_tries=3,
             ),
 
             "claude3.7": GeneralLlm(
                 model="metaculus/anthropic/claude-3-7-sonnet-latest",
                 temperature=0.7,
                 timeout=40,
-                allowed_tries=2,
+                allowed_tries=3,
             ),
             "o1preview": GeneralLlm(
                 model="metaculus/openai/o1",
@@ -1001,7 +1000,7 @@ if __name__ == "__main__":
             ),
             "gpt4o": GeneralLlm(
                 model="metaculus/openai/gpt-4o",
-                temperature=0.3,
+                temperature=0.4,
                 timeout=40,
                 allowed_tries=2,
             ),
