@@ -267,7 +267,7 @@ class Q2TemplateBot2025(ForecastBot):
                 The following additional information on the subject has been provided by your engineers:
                 {question.background_info}
 
-                Another AI has done the following research using news available online.
+                Another AI has summarized online news:
                 {research}
 
                 Before providing a final forecast, provide the following:
@@ -303,25 +303,19 @@ class Q2TemplateBot2025(ForecastBot):
                 Be mindful of these stipulations, some of which may be unintuitive to the way the question is worded, but take care of edge cases:
                 {question.fine_print}
 
-                You have researched using online news.
+                You have researched using online news:
                 {research}
                 You are looking at the comments from other users, experts and laypeople alike. Use their combined forecast for your prediction.
                 {comments}
 
-                Look through each comment and comprehend their trains of thought. At the end assign a weight to each prediction according to how good you find the reasoning.
-                The weights should be between 0.01 and 0.99 and the total sum of the weights should be exactly 1.
+                Look through each comment and comprehend their trains of thought. At the end aggregate prediction according to how good you find the reasoning to arrive at your own prediction.
 
 
-                Before assigning weights write the following:
+                Write the following:
                 (1) A short assessment of each prediction.
                 (2) Which reasoning you most agree with an believe to be closest to a true prediction/the true probability of the event.
-                (3) The weights you assign to each comment in the form:
-                    Reasoning_1: Weight_1
-                    Reasoning_2: Weight_2
-                    Reasoning_3: Weight_4
-                    Reasoning_4: Weight_4
 
-                The last thing you write is your final weighted sum as: "Probability: ZZ%", 0-100
+                The last thing you write is your final weighted prediction as: "Probability: ZZ%", 0-100
                 """)
             model_name = "claude3.7"
 
@@ -342,7 +336,7 @@ class Q2TemplateBot2025(ForecastBot):
                 The following additional information on the subject has been provided by your engineers:
                 {question.background_info}
                 
-                Another AI has done the following research using news available online.
+                Another AI has summarized online news:
                 {research}
                 
                 Before providing a final forecast, provide the following:
@@ -497,7 +491,7 @@ class Q2TemplateBot2025(ForecastBot):
                 The following additional information on the subject has been provided by your engineers:
                 {question.background_info}
 
-                Another AI has done the following research using news available online:
+                Another AI has summarized online news:
                 {research}
 
                 Before providing a final forecast, provide the following:
@@ -544,7 +538,7 @@ class Q2TemplateBot2025(ForecastBot):
                 
                 Look through each comment and comprehend their trains of thought. 
                 
-                Before assigning weights write the following:
+                Before your final prediction write the following:
                 (1) A short assessment of each prediction.
                 (2) Which reasoning you most agree with an believe to be closest to a true prediction/the true probability of the event.
                 (3) Which comment you don't agree with and believe is a bad prediction.
@@ -576,7 +570,7 @@ class Q2TemplateBot2025(ForecastBot):
                 The following additional information on the subject has been provided by your engineers:
                 {question.background_info}
                 
-                Another AI has done the following research using news available online.
+                Another AI has summarized online news:
                 {research}
                 
                 Before providing a final forecast, provide the following:
@@ -773,7 +767,7 @@ class Q2TemplateBot2025(ForecastBot):
                 The following additional information on the subject has been provided by your engineers:
                 {question.background_info}
                 
-                Another AI has done the following research using news available online:
+                Another AI has as summarized online news:
                 {research}
                 
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
@@ -837,7 +831,6 @@ class Q2TemplateBot2025(ForecastBot):
                 
                 Look through each comment and comprehend their trains of thought. 
                 
-                Before assigning weights to each opinion write the following:
                 Before answering you write:
                 (a) Is the research relevant to the other user's comments or have they formed their analysis on false premises?
                 (b) The comment you least agree with.
@@ -848,6 +841,7 @@ class Q2TemplateBot2025(ForecastBot):
                 - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
                 - Never use scientific notation.
                 - Always start with a smaller number (more negative if negative) and then increase from there
+                
                 The last thing you write is your final answer as:
                 "
                 Percentile 10: XX
