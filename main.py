@@ -390,11 +390,11 @@ class Q2TemplateBot2025(ForecastBot):
                 (a) The time left until the outcome to the question is known.
                 (b) The current status quo and if any of the options are current values or all in the future.
                 (c) A brief description of the most likely scenario.
-                (d) A brief description of the least likely opteion.
+                (d) A brief description of the least likely option.
                 
-                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 1% and 99%. Remember to not be overconfident.
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 2% and 97%. Remember to not be overconfident.
                 
-                The last thing you write is your final probabilities for the N options in this order {question.options} as:
+                The last thing you write is your final probabilities (in %) for the N options in this order {question.options} as:
                 Option_A: Probability_A
                 Option_B: Probability_B
                 ...
@@ -430,13 +430,14 @@ class Q2TemplateBot2025(ForecastBot):
                 The score of the question is determined using a logarithmic function. Higher percentages on the correct option lead to more points, but with less marginal benefit. 
                 A correct prediction of 99% will not be awarded significantly more points than a 95% prediction, but result in an exponentially more negative score in case of a wrong prediction.     
                                 
-                The last thing you write is your final probabilities for the N options in this order {question.options} as:
+                The last thing you write is your final probabilities (in %) for the N options in this order {question.options} as:
+                
                 Option_A: Probability_A
                 Option_B: Probability_B
                 ...
                 Option_N: Probability_N
                 """)
-            model_name = "o1preview"  # ToDo: o1preview
+            model_name = "o1preview"
 
         elif notepad.num_predictions_attempted == 3:
             prompt = clean_indents(f"""
@@ -503,7 +504,7 @@ class Q2TemplateBot2025(ForecastBot):
 
                 You write your prediction including the reasoning for your answer.
 
-                The last thing you write is your final probabilities for the N options in this order {question.options} as:
+                The last thing you write is your final probabilities (in %) for the N options in this order {question.options} as:
                 
                 Option_A: Probability_A
                 Option_B: Probability_B
@@ -582,9 +583,8 @@ class Q2TemplateBot2025(ForecastBot):
                 (4a) Reflect on this answer and the considerations above.
                 (4b) Adjust your opinion accordingly.
                 
-                You write your prediction including the reasoning for your answer.
-                
-                The last thing you write is your final probabilities for the N options in this order {question.options} as:
+                You write your prediction including the reasoning for your answer.                
+                The last thing you write is your final probabilities (in %) for the N options in this order {question.options} as:
                 
                 Option_A: Probability_A
                 Option_B: Probability_B
@@ -641,7 +641,7 @@ class Q2TemplateBot2025(ForecastBot):
                 (d) Factors that might change the rate of change.
                 (e) Events that may significantly change the value beyond the predicted resolution value.
                 
-                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. Good forecasters are humble and set wide 90/10 confidence intervals to account for unknowns.
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. Good forecasters are humble and set wide 80/20 confidence intervals to account for unknowns.
                 Please remember that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time. Your final answer may look similar to a normal distribution.
                 
                 The last thing you write is your final answer as:
@@ -662,13 +662,12 @@ class Q2TemplateBot2025(ForecastBot):
                 Your are currently trying to find the chance of this happening:
                 {question.question_text}
                 
+                These are the specific conditions:
+                {question.resolution_criteria}
+                {question.fine_print}
+                
                 You have already compiled additional information to aid you in modelling this event:
                 {question.background_info}
-                
-                To test the accuracy of your forecast a specific condition has been chosen to evaluate the future outcome of the event:
-                {question.resolution_criteria}
-                
-                {question.fine_print}
                 
                 Your research assistant says:
                 {research}
@@ -682,6 +681,7 @@ class Q2TemplateBot2025(ForecastBot):
                 - Please notice the units requested (e.g. whether you represent a number as 1,000,000 or 1 million).
                 - Never use scientific notation.
                 - Always start with a smaller number (more negative if negative) and then increase from there
+                
                 Before answering please write:
                 (a) The time left until the outcome to the question is known.
                 (b) The current or latest reported value. 
@@ -690,7 +690,7 @@ class Q2TemplateBot2025(ForecastBot):
                 (d) Factors that might change the rate of change (outliers). Use a bottom-up approach.
                 
                 You write your rationale thinking about black swan events, that, while extremely unlikely, can have huge impacts. A logarithmic score is used to evaluate your performance. That means overconfidence is punished.
-                Please leave long tails to account for this. 
+                Good forecasters are humble and set wide 90/10 confidence intervals to account for unknowns.
                 
                 The last thing you write is your final answer as:
                 "
@@ -702,7 +702,7 @@ class Q2TemplateBot2025(ForecastBot):
                 Percentile 90: XX
                 "
                 """)
-            model_name = "o1preview"  # ToDo: o1preview
+            model_name = "o1preview"
 
         elif notepad.num_predictions_attempted == 3:
             prompt = clean_indents(f"""
@@ -756,7 +756,8 @@ class Q2TemplateBot2025(ForecastBot):
             prompt = clean_indents(f"""
                 You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. Keep in mind, that black swan events can always happen unpredictably. Do not be overconfident and leave long tails for the 10th and 90th percentiles smilar to a normal distribution.
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly.
+                Do not be overconfident and leave long tails for the 10th and 90th percentiles similar to a normal distribution, to account for unpredictable events.
                                 
                 The following question is to be predicted:
                 {question.question_text}
@@ -789,6 +790,7 @@ class Q2TemplateBot2025(ForecastBot):
                 - Never use scientific notation.
                 - Always start with a smaller number (more negative if negative) and then increase from there
                 The last thing you write is your final answer as:
+                
                 "
                 Percentile 10: XX
                 Percentile 20: XX
@@ -803,9 +805,8 @@ class Q2TemplateBot2025(ForecastBot):
         elif notepad.num_predictions_attempted == 5:
             comments = "\n".join(notepad.note_entries["reasonings"])
             prompt = clean_indents(f"""
-                You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using the following formula for scoring: 
-                {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                This means forecasts at the extreme ends provide decreasing marginal beneftis, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters use long tails (e.g. wide 10th and 90th percentiles).
+                You are a superforecaster aggregating other users' and experts' comments to arrive at a chance of future events occuring. A forecasting tournament is using logarithmic scoring.
+                This means forecasts at the extreme ends provide decreasing marginal benefits, while leading to a exponentially increasing point loss if predicted incorrectly. As such good forecasters use long tails (e.g. wide 10th and 90th percentiles).
                 You want to win the competition and get the highest score.
                 You are trying to find the chance of this happening:
                 {question.question_text}
@@ -858,7 +859,7 @@ class Q2TemplateBot2025(ForecastBot):
             prompt = clean_indents(f"""
                 You are an advanced superintelligent artificial general intelligence (AGI) used to make accurate forecasts of the future. Your accuracy is being tested using the following formula for scoring: 
                 {chr(92)}frac{{100}}{{n}} {chr(92)}sum_{{i=1}}^{{N}} {chr(92)}log {chr(92)}text{{score}}(p) - {chr(92)}log {chr(92)}text{{score}}(p_i)
-                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly. As such, keep forecasts between 5% and 95% unless absolutely sure.
+                Forecasts at the extreme ends provide marginal benefits, while leading to a massive point loss if predicted incorrectly.
                 
                 Today is {datetime.now().strftime("%Y-%m-%d")}.
                 
@@ -975,7 +976,7 @@ if __name__ == "__main__":
         llms={  # choose your model names or GeneralLlm llms here, otherwise defaults will be chosen for you
             "default": GeneralLlm(
                 model="metaculus/anthropic/claude-3-7-sonnet-latest",
-                temperature=0.8,
+                temperature=0.7,
                 timeout=40,
                 allowed_tries=3,
             ),
